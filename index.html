@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div style="text-align: center; margin: 300px auto; width: 500px">
+      <div>
+        <input type="text" style="width: 100%;font-size: 20px;" />
+        <button>Đọc</button>
+      </div>
+      <span style="color: red"></span>
+    </div>
+    <script>
+      "use strict";
+      const soDV = [
+        {
+          so: 0,
+          chu: "",
+        },
+        {
+          so: 1,
+          chu: "một",
+        },
+        {
+          so: 2,
+          chu: "hai",
+        },
+        {
+          so: 3,
+          chu: "ba",
+        },
+        {
+          so: 4,
+          chu: "bốn",
+        },
+        {
+          so: 5,
+          chu: "năm",
+          chu1: "lăm",
+        },
+        {
+          so: 6,
+          chu: "sáu",
+        },
+        {
+          so: 7,
+          chu: "bảy",
+        },
+        {
+          so: 8,
+          chu: "tám",
+        },
+        {
+          so: 9,
+          chu: "chín",
+        },
+      ];
+      const soChuc = [
+        {
+          so: 0,
+          chu: "",
+        },
+        {
+          so: 1,
+          chu: "mười",
+        },
+        {
+          so: 2,
+          chu: "hai mươi",
+        },
+        {
+          so: 3,
+          chu: "ba mươi",
+        },
+        {
+          so: 4,
+          chu: "bốn mươi",
+        },
+        {
+          so: 5,
+          chu: "năm mươi",
+        },
+        {
+          so: 6,
+          chu: "sáu mươi",
+        },
+        {
+          so: 7,
+          chu: "bảy mươi",
+        },
+        {
+          so: 8,
+          chu: "tám mươi",
+        },
+        {
+          so: 9,
+          chu: "chín mươi",
+        },
+      ];
+      const soTram = [
+        {
+          so: 0,
+          chu: "",
+        },
+        {
+          so: 1,
+          chu: "một trăm",
+        },
+        {
+          so: 2,
+          chu: "hai trăm",
+        },
+        {
+          so: 3,
+          chu: "ba trăm",
+        },
+        {
+          so: 4,
+          chu: "bốn trăm",
+        },
+        {
+          so: 5,
+          chu: "năm trăm",
+        },
+        {
+          so: 6,
+          chu: "sáu trăm",
+        },
+        {
+          so: 7,
+          chu: "bảy trăm",
+        },
+        {
+          so: 8,
+          chu: "tám trăm",
+        },
+        {
+          so: 9,
+          chu: "chín trăm",
+        },
+      ];
+      const DV3 = [
+        {
+          dv: 0,
+          chu: "",
+        },
+        {
+          dv: 3,
+          chu: "nghìn",
+        },
+        {
+          dv: 6,
+          chu: "triệu",
+        },
+        {
+          dv: 9,
+          chu: "tỷ",
+        },
+      ];
+      function docSo(so) {
+        function doc(s) {
+          const Truoc = s.slice(0, s.length - 3);
+          const Sau = so.slice(Truoc.length);
+          let Truoc1 = Truoc.length >= 3 ? Truoc[Truoc.length - 3] : "";
+          let Truoc2 = Truoc.length >= 2 ? Truoc[Truoc.length - 2] : "";
+          let Truoc3 = Truoc.length >= 1 ? Truoc[Truoc.length - 1] : "";
+          let chiDV =
+            Sau.length % 9 == 0
+              ? 9
+              : Sau.length % 6 == 0
+              ? 6
+              : Sau.length % 3 == 0
+              ? 3
+              : 0;
+
+          let strTruoc1 = soTram.filter((x) => x.so === Number(Truoc1))[0].chu;
+          let strTruoc2 = soChuc.filter((x) => x.so === Number(Truoc2))[0].chu;
+          let strTruoc3 = soDV.filter((x) => x.so === Number(Truoc3))[0].chu;
+          let strDV = DV3.filter((x) => x.dv == chiDV)[0].chu;
+
+          return (
+            (Truoc.length > 3 ? doc(Truoc) : "") +
+            " " +
+            strTruoc1 +
+            " " +
+            strTruoc2 +
+            " " +
+            strTruoc3 +
+            " " +
+            (strTruoc1 != "" ||
+            strTruoc2 != "" ||
+            strTruoc3 != "" ||
+            strDV == "tỷ"
+              ? strDV
+              : "")
+          );
+        }
+        return (
+          doc(so) +
+          " " +
+          soTram.filter((x) => x.so === Number(so[so.length - 3]))[0].chu +
+          " " +
+          soChuc.filter((x) => x.so === Number(so[so.length - 2]))[0].chu +
+          " " +
+          soDV.filter((x) => x.so === Number(so[so.length - 1]))[0].chu
+        );
+      }
+
+      document.querySelector("button").addEventListener("click", () => {
+        document.querySelector("span").innerHTML = docSo(
+          document.querySelector("input").value
+        );
+      });
+    </script>
+  </body>
+</html>
