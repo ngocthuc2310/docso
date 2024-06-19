@@ -8,7 +8,7 @@
   <body>
     <div style="text-align: center; margin: 300px auto; width: 500px">
       <div>
-        <input type="text" style="width: 100%;font-size: 20px;" />
+        <input type="text" style="width: 100%; font-size: 20px" />
         <button>Đọc</button>
       </div>
       <span style="color: red"></span>
@@ -167,19 +167,35 @@
           let Truoc1 = Truoc.length >= 3 ? Truoc[Truoc.length - 3] : "";
           let Truoc2 = Truoc.length >= 2 ? Truoc[Truoc.length - 2] : "";
           let Truoc3 = Truoc.length >= 1 ? Truoc[Truoc.length - 1] : "";
-          let chiDV =
-            Sau.length % 9 == 0
-              ? 9
-              : Sau.length % 6 == 0
-              ? 6
-              : Sau.length % 3 == 0
-              ? 3
-              : 0;
+
+          let chiDV1 = Sau.length % 9 == 0 ? 9 : 0;
+          let chiDV2 = (Sau.length % 9) % 6 == 0 ? 6 : 0;
+          let chiDV3 = ((Sau.length % 9) % 6) % 3 == 0 ? 3 : 0;
+
+          if (chiDV1 == 9) {
+            chiDV2 = 0;
+            chiDV3 = 0;
+          }
+          if (chiDV2 == 6) {
+            chiDV3 = 0;
+          }
 
           let strTruoc1 = soTram.filter((x) => x.so === Number(Truoc1))[0].chu;
           let strTruoc2 = soChuc.filter((x) => x.so === Number(Truoc2))[0].chu;
           let strTruoc3 = soDV.filter((x) => x.so === Number(Truoc3))[0].chu;
-          let strDV = DV3.filter((x) => x.dv == chiDV)[0].chu;
+
+          let strDV1 = DV3.filter((x) => x.dv == chiDV1)[0].chu;
+          let strDV2 = DV3.filter((x) => x.dv == chiDV2)[0].chu;
+          let strDV3 = DV3.filter((x) => x.dv == chiDV3)[0].chu;
+
+          let strDV = "";
+          if (
+            strTruoc1 != "" ||
+            strTruoc2 != "" ||
+            strTruoc3 != "" ||
+            strDV1 == "tỷ"
+          )
+            strDV = strDV3 + " " + strDV2 + " " + strDV1;
 
           return (
             (Truoc.length > 3 ? doc(Truoc) : "") +
@@ -190,12 +206,7 @@
             " " +
             strTruoc3 +
             " " +
-            (strTruoc1 != "" ||
-            strTruoc2 != "" ||
-            strTruoc3 != "" ||
-            strDV == "tỷ"
-              ? strDV
-              : "")
+            strDV
           );
         }
         return (
